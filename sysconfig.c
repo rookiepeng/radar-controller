@@ -17,12 +17,15 @@ void sysConfig()
     clockConfig();
     gpioConfig();
     interruptConfig();
+
+    P2OUT &= ~BIT5;
+    P6OUT |= (BIT4 | BIT5);
 }
 
 // GPIO Configuration
 void gpioConfig()
 {
-    // test ports
+    // Mode selection ports
     P2SEL &= ~(BIT4 | BIT5);
     P2DIR &= ~BIT4;
     P2DIR |= BIT5;

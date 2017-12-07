@@ -1,5 +1,5 @@
 /*
-* MCU board for hybrid portable radar system
+* Controller for 5.8-GHz & 24-GHz multi-mode radar systems
 *
 * Software Version: 1.0
 * Hardware Version: Jun. 2015
@@ -13,34 +13,27 @@
 #include "radar.h"
 
 const char FMCW = 0x00;    // FMCW mode
-const char DOPPLER = 0x01; // INTERFEROMETRY mode
-char modeFlag = 0;         // FMCW: modeFlag==0, INTERFEROMETRY mode: other cases
+const char DOPPLER = 0x01; // Doppler mode with low-IF modulation
+char modeFlag;
 
 int main(void)
 {
-    // Stop watchdog timer to prevent time out reset
-    WDTCTL = WDTPW + WDTHOLD;
+    WDTCTL = WDTPW + WDTHOLD; // Stop watchdog timer to prevent time out reset
 
-    // System Configration
-    sysConfig();
+    sysConfig(); // System Configration
 
-    radarMode(modeFlag);
-    P2OUT &= ~BIT5;
-    P6OUT |= (BIT4 | BIT5);
-
-    if (P2IN & 0x10)
+    if (P2IN & 0x10) // FMCW mode when pin 2.4 is high
     {
         modeFlag = FMCW;
         radarMode(modeFlag);
     }
-    else
+    else // Doppler mode when pin 2.4 is low
     {
         modeFlag = DOPPLER;
         radarMode(modeFlag);
     }
 
-    // Enter LPM3, interrupts enabled
-    __bis_SR_register(LPM3_bits + GIE);
+    __bis_SR_register(LPM3_bits + GIE); // Enter LPM3, interrupts enabled
 
     return 0;
 }
@@ -68,15 +61,10 @@ __interrupt void Timer_A1(void)
         {
             P6OUT |= (BIT4 | BIT5);
         }
-        //modeFlag = ( modeFlag + 1 ) % 2;
-        //radarMode( modeFlag );
         break;
     case 4:
-        //CCR2 += 5000	// Freq = 32768 / 2 / offset
         break;
-    case 10: // switch between INTERFEROMETRY mode and FMCW mode
-        //modeFlag = ( modeFlag + 1 ) % 4;	// Freq = 0.25 Hz
-        //radarMode( modeFlag );
+    case 10:
         break;
     }
 }

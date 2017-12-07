@@ -20,7 +20,7 @@ void radarMode(char mode)
         fmcwMode();
         break;
     default:
-        interferometryMode();
+        dopplerMode();
         break;
     }
 }
@@ -28,13 +28,11 @@ void radarMode(char mode)
 // FMCW mode
 void fmcwMode()
 {
-    //P4OUT &= ~ BIT6;
     P6OUT &= ~(BIT3);
 }
 
-// INTERFEROMETRY mode
-void interferometryMode()
+// doppler mode
+void dopplerMode()
 {
-    //P4OUT |= BIT6;
     P6OUT |= BIT3;
 }

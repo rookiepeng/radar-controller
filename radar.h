@@ -3,6 +3,6 @@
 
 void radarMode(char mode);
 void fmcwMode();
-void interferometryMode();
+void dopplerMode();
 
 #endif
