@@ -24,19 +24,6 @@
  * 
  **/
 
-/**
- * 
- * Controller for 5.8-GHz & 24-GHz multi-mode radar systems
- *
- * Version: 1.1
- * IDE:
- * Hardware:
- *
- * Zhengyu Peng
- * Texas Tech University
- * 
- **/
-
 #include "io430.h"
 #include "sysconfig.h"
 #include "radar.h"
